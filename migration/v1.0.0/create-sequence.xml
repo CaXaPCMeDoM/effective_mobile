@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.21.xsd">
+
+    <changeSet id="create-sequence" author="caxap">
+        <createSequence sequenceName="user_id_seq" startValue="1" cacheSize="1" incrementBy="1" minValue="1" schemaName="entity_schema"/>
+        <createSequence sequenceName="task_id_seq" startValue="1" cacheSize="1" incrementBy="1" minValue="1" schemaName="entity_schema"/>
+    </changeSet>
+
+</databaseChangeLog>

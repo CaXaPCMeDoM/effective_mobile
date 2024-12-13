@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.21.xsd">
+
+
+    <changeSet id="create-table-comments" author="caxap">
+        <sql>
+            CREATE TABLE IF NOT EXISTS entity_schema.comments
+            (
+                id BIGSERIAL PRIMARY KEY,
+                task_id BIGINT REFERENCES entity_schema.tasks(id) ON DELETE CASCADE,
+                author_id BIGINT REFERENCES entity_schema.users(id) ON DELETE CASCADE,
+                content TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

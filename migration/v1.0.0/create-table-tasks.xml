@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.21.xsd">
+
+    <changeSet id="create-type-status" author="caxap">
+        <sql>
+            CREATE TYPE status_type AS ENUM ('в ожидании', 'в процессе', 'завершено');
+        </sql>
+    </changeSet>
+
+    <changeSet id="create-type-priority" author="caxap">
+        <sql>
+            CREATE TYPE priority_type AS ENUM ('высокий', 'средний', 'низкий');
+        </sql>
+    </changeSet>
+    <changeSet id="create-table-task" author="caxap">
+        <sql>
+            CREATE TABLE IF NOT EXISTS entity_schema.tasks (
+                id BIGINT DEFAULT nextval('entity_schema.task_id_seq') PRIMARY KEY,
+                title VARCHAR(256) NOT NULL,
+                description TEXT NOT NULL,
+                status status_type NOT NULL,
+                priority priority_type NOT NULL,
+                author_id BIGINT REFERENCES entity_schema.users(id) ON DELETE CASCADE,
+                assignee_id BIGINT REFERENCES entity_schema.users(id) ON DELETE SET NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

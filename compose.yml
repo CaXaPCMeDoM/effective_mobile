@@ -1,0 +1,42 @@
+services:
+  tasks_db:
+    image: postgres:16
+    container_name: task_db
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: caxap
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - tasks_db:/var/lib/postgresql/data
+    networks:
+      - backend
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
+  migration:
+    image: liquibase/liquibase:4.25
+    container_name: liquibase
+    depends_on:
+      - tasks_db
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://task_db:5432/db
+      - --username=caxap
+      - --password=1234
+      - update
+    volumes:
+      - ./migration:/liquibase/changelog
+    networks:
+      - backend
+
+volumes:
+  tasks_db: {}
+
+networks:
+  backend: {}
