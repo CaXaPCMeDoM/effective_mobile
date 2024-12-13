@@ -3,6 +3,7 @@ package org.effective.mobile.core.repository;
 import org.effective.mobile.core.entity.Task;
 import org.effective.mobile.core.entity.enums.Priority;
 import org.effective.mobile.core.entity.enums.Status;
+import org.effective.mobile.core.exception.TaskNotFoundException;
 import org.effective.mobile.core.service.task.ChainTaskFilterParams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ class TaskRepositoryTest {
     }
 
     @Test
-    void deleteById_shouldDeleteTask() {
+    void deleteById_shouldDeleteTask() throws TaskNotFoundException {
         when(jdbcTemplate.update(anyString(), anyLong())).thenReturn(1);
 
         int rowsAffected = taskRepository.deleteById(1L);
